@@ -1,0 +1,363 @@
+{
+  "name": "Personal AI Assistant",
+  "nodes": [
+    {
+      "parameters": {
+        "formTitle": "Prince AI Assistant",
+        "formDescription": "Ask questions about AI, automation, APIs, and n8n. Your AI assistant will help you understand things step by step.",
+        "formFields": {
+          "values": [
+            {
+              "fieldLabel": "Your Question",
+              "fieldName": "chatInput"
+            },
+            {
+              "fieldLabel": "Session ID",
+              "fieldName": "sessionId"
+            }
+          ]
+        },
+        "responseMode": "=Wait for the AI Agent to finish, then return the result to the person who submitted the form.",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.formTrigger",
+      "typeVersion": 2.6,
+      "position": [
+        -304,
+        -96
+      ],
+      "id": "53d6b201-005c-4052-a665-130c75d6b308",
+      "name": "User Request Form",
+      "webhookId": "bc4d6e2d-7f7d-4286-af8f-23a2e7d6051a"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "1b6eaa87-d8b3-4c32-9efc-4b7c5ce18cc2",
+              "name": "",
+              "value": "",
+              "type": "string"
+            },
+            {
+              "id": "673e789e-3971-4492-848a-4f340eb9df5f",
+              "name": "",
+              "value": "",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        -80,
+        -96
+      ],
+      "id": "4f18b358-5632-46ba-b795-f3beb36d8820",
+      "name": "Prepare Request"
+    },
+    {
+      "parameters": {
+        "assignments": {
+          "assignments": [
+            {
+              "id": "36273ff1-a013-4094-aac2-9256cc09556f",
+              "name": "=currentLagosDate",
+              "value": "={{ $now.setZone('Africa/Lagos').toFormat('yyyy-MM-dd') }}",
+              "type": "string"
+            }
+          ]
+        },
+        "includeOtherFields": true,
+        "options": {}
+      },
+      "type": "n8n-nodes-base.set",
+      "typeVersion": 3.5,
+      "position": [
+        144,
+        -96
+      ],
+      "id": "7a3a84ef-7b18-480b-b766-25c362092497",
+      "name": "Prepare Date & Session"
+    },
+    {
+      "parameters": {
+        "promptType": "define",
+        "text": "={{ $json.chatInput }}",
+        "options": {
+          "systemMessage": "You are a friendly AI assistant and teacher.\n\nYour job is to help beginners understand technology, AI, APIs, automation, and n8n.\n\nAlways:\n\n* Explain difficult concepts in simple language.\n* Give practical examples.\n* Break complicated topics into small steps.\n* Be accurate and honest when you are unsure.\n* Ask a clarifying question when the user's request is unclear.\n* Keep answers organized and easy to read.\n\nDo not use Markdown symbols such as asterisks or hashtags for formatting.\nDo not use unnecessary technical jargon.\n\nCURRENT DATE AND TIME — HIGHEST PRIORITY\n\nThe current date and time is provided dynamically by n8n.\n\nCurrent Lagos date:\n{{ $('Edit Fields1').item.json.currentLagosDate }}\n\nThe current Lagos date is {{ $('Edit Fields1').item.json.currentLagosDate }}.\nFor this workflow, today is September 14, 2026.\nTomorrow is September 15, 2026.\n\nIMPORTANT:\nThe values above are the ONLY source of truth for the current date and time.\n\nNEVER use a date from:\n\n* previous conversations\n* previous examples\n* training data\n* memory\n* old test results\n* your internal knowledge\n\nWhen the user says:\n\n* today → use the current Lagos date above\n* tomorrow → add exactly 1 day to the current Lagos date\n* yesterday → subtract exactly 1 day\n* next Monday → calculate the next Monday from the current Lagos date\n\nCALENDAR RULES\n\nWhen the user asks to create a calendar event:\n\n1. Determine the exact date and time requested before using the Google Calendar tool.\n2. For relative dates such as today, tomorrow, next Monday, or next week, calculate the date from the dynamic current Lagos date above.\n3. Never use dates from previous examples or conversation history.\n4. Never invent the current date.\n5. Never use March 2026 unless the user explicitly requests March 2026.\n6. Always use the Africa/Lagos timezone.\n7. Always send Google Calendar an absolute ISO 8601 date-time.\n8. Never send words such as \"tomorrow\" or \"next Monday\" to the Calendar tool.\n9. If the user does not provide enough information to determine the date or time, ask the user instead of guessing.\n10. Before creating the event, verify the calculated date against the dynamic current Lagos date.\n\nFor example, if the dynamic current Lagos date is 2026-09-14:\n\n* today = 2026-09-14\n* tomorrow = 2026-09-15\n\nCONTACT DATABASE RULE\n\nWhen the user wants to send an email to a person identified by name:\n\n1. Always search the Google Sheets contacts database first.\n2. Use the person's exact name to find their contact.\n3. Use the email address returned by Google Sheets.\n4. Never invent or guess an email address.\n5. If the contact cannot be found, ask the user for the correct email address.\n6. Do not send the email until the required contact information has been found.\n\nTOOL EXECUTION RULES\n\nUse tools only when they are necessary to complete the user's request.\n\nWhen the user asks to schedule a meeting and send a confirmation email:\n1. Search the contacts database first if the person is identified by name.\n2. Create the calendar event using the exact date and time.\n3. Send the confirmation email using the contact's verified email address.\n4. After both actions are successfully completed, stop using tools.\n5. Do not repeat a tool call that has already succeeded.\n6. Do not search the contacts database again after the correct contact has been found.\n7. Do not create the same calendar event more than once.\n8. Do not send the same email more than once.\n9. After completing the requested actions, provide a short summary to the user.\n\nIMPORTANT:\nA successful tool result means the action is complete. Do not call the same tool again unless the previous call failed or the user explicitly requests another action."
+        }
+      },
+      "type": "@n8n/n8n-nodes-langchain.agent",
+      "typeVersion": 3.1,
+      "position": [
+        400,
+        -96
+      ],
+      "id": "6a1b04a4-ea6d-4019-bfaf-5826ae3e4251",
+      "name": "Personal AI Assistant"
+    },
+    {
+      "parameters": {},
+      "type": "@n8n/n8n-nodes-langchain.memoryBufferWindow",
+      "typeVersion": 1.4,
+      "position": [
+        240,
+        208
+      ],
+      "id": "bf6d1f8b-8e3b-4ef6-9e03-718448578600",
+      "name": "Conversation Memory"
+    },
+    {
+      "parameters": {
+        "documentId": {
+          "__rl": true,
+          "value": "19gcvnLPV1P8ciNuet8zxjb0Quio6c7Yg6TavHtHymWo",
+          "mode": "list",
+          "cachedResultName": "contacts",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19gcvnLPV1P8ciNuet8zxjb0Quio6c7Yg6TavHtHymWo/edit?usp=drivesdk"
+        },
+        "sheetName": {
+          "__rl": true,
+          "value": "gid=0",
+          "mode": "list",
+          "cachedResultName": "Sheet1",
+          "cachedResultUrl": "https://docs.google.com/spreadsheets/d/19gcvnLPV1P8ciNuet8zxjb0Quio6c7Yg6TavHtHymWo/edit#gid=0"
+        },
+        "filtersUI": {
+          "values": [
+            {
+              "lookupColumn": "NAME",
+              "lookupValue": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('values0_Value', `Search the contacts database in Google Sheets to find a person's name, email address, and phone number. Always use this tool when the user refers to a contact by name and you need their contact information. Never invent an email address or phone number.`, 'string') }}"
+            }
+          ]
+        },
+        "options": {}
+      },
+      "type": "n8n-nodes-base.googleSheetsTool",
+      "typeVersion": 4.7,
+      "position": [
+        704,
+        208
+      ],
+      "id": "96687e75-ab89-4cdc-b2ac-58ad687a0dca",
+      "name": "Contact Database",
+      "credentials": {
+        "googleSheetsOAuth2Api": {
+          "id": "FDJF67M3OSOheymG",
+          "name": "Google Sheets account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "calendar": {
+          "__rl": true,
+          "value": "2b886c9303118681cf1b8798788f4f8e4a617aefcea7f2c56acdfd62cfba0f7a@group.calendar.google.com",
+          "mode": "list",
+          "cachedResultName": "Prince AI Assistant"
+        },
+        "start": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Start', `The exact start date and time of the calendar event. Always use an absolute ISO 8601 date-time with the Africa/Lagos timezone. Never use words such as tomorrow or next Monday.`, 'string') }}",
+        "end": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('End', `The exact end date and time of the calendar event. Always use an absolute ISO 8601 date-time with the Africa/Lagos timezone. The end time must be after the start time. Never use words such as tomorrow or next Monday.`, 'string') }}",
+        "additionalFields": {
+          "summary": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Summary', `The title of the calendar event. Create a short, clear title based on what the user wants to schedule.\n`, 'string') }}"
+        }
+      },
+      "type": "n8n-nodes-base.googleCalendarTool",
+      "typeVersion": 1.3,
+      "position": [
+        384,
+        208
+      ],
+      "id": "6e5550a0-137a-4558-a3f0-9ab8433832c3",
+      "name": "Calendar Manager",
+      "credentials": {
+        "googleCalendarOAuth2Api": {
+          "id": "QCxH0rmz3Wzo3TWC",
+          "name": "Google Calendar account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "sendTo": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('To', `The recipient's email address. Use the exact email address returned by the contacts database. Never invent or modify the email address.`, 'string') }}",
+        "subject": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Subject', `A short, clear subject for the email based on the user's request.`, 'string') }}",
+        "message": "={{ /*n8n-auto-generated-fromAI-override*/ $fromAI('Message', `The body of the email. Write a clear, friendly message based on the user's instructions. Do not add information the user did not provide.`, 'string') }}",
+        "options": {
+          "appendAttribution": false
+        }
+      },
+      "type": "n8n-nodes-base.gmailTool",
+      "typeVersion": 2.2,
+      "position": [
+        560,
+        224
+      ],
+      "id": "1b1c1ed1-75cd-4ab1-8160-c4c67470fa95",
+      "name": "Email Sender",
+      "webhookId": "e278a73c-1591-4be8-bc27-69a0d7dc4136",
+      "credentials": {
+        "gmailOAuth2": {
+          "id": "f12e0gApd6ZXwT5w",
+          "name": "Gmail account"
+        }
+      }
+    },
+    {
+      "parameters": {
+        "operation": "completion",
+        "completionTitle": "AI Assistant Answer",
+        "completionMessage": "={{ $json.output }}",
+        "options": {}
+      },
+      "type": "n8n-nodes-base.form",
+      "typeVersion": 2.5,
+      "position": [
+        832,
+        -96
+      ],
+      "id": "266e5690-6d64-465e-92de-02211b095849",
+      "name": "Assistant Response",
+      "webhookId": "602a4b3a-6194-42d4-b85c-9b8d303ca621"
+    },
+    {
+      "parameters": {
+        "modelName": "models/gemini-3.5-flash-lite",
+        "options": {}
+      },
+      "type": "@n8n/n8n-nodes-langchain.lmChatGoogleGemini",
+      "typeVersion": 1.1,
+      "position": [
+        80,
+        192
+      ],
+      "id": "adde561f-db70-4165-8d39-72dcca21572c",
+      "name": "Gemini AI Model",
+      "credentials": {
+        "googlePalmApi": {
+          "id": "y8wHdKfQtYlRpDcA",
+          "name": "Google Gemini(PaLM) Api account 3"
+        }
+      }
+    }
+  ],
+  "pinData": {},
+  "connections": {
+    "User Request Form": {
+      "main": [
+        [
+          {
+            "node": "Prepare Request",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Request": {
+      "main": [
+        [
+          {
+            "node": "Prepare Date & Session",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Prepare Date & Session": {
+      "main": [
+        [
+          {
+            "node": "Personal AI Assistant",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Personal AI Assistant": {
+      "main": [
+        [
+          {
+            "node": "Assistant Response",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Conversation Memory": {
+      "ai_memory": [
+        [
+          {
+            "node": "Personal AI Assistant",
+            "type": "ai_memory",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Contact Database": {
+      "ai_tool": [
+        [
+          {
+            "node": "Personal AI Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Calendar Manager": {
+      "ai_tool": [
+        [
+          {
+            "node": "Personal AI Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Email Sender": {
+      "ai_tool": [
+        [
+          {
+            "node": "Personal AI Assistant",
+            "type": "ai_tool",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Gemini AI Model": {
+      "ai_languageModel": [
+        [
+          {
+            "node": "Personal AI Assistant",
+            "type": "ai_languageModel",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "active": false,
+  "settings": {
+    "executionOrder": "v1",
+    "binaryMode": "separate"
+  },
+  "versionId": "06e3ec64-46fc-481e-b5f9-4878cdffeb1e",
+  "meta": {
+    "templateCredsSetupCompleted": true,
+    "instanceId": "c87be7fd06185ea795db6a3614b34c635cd4f4bed3d4cad32037fa745b6a214c"
+  },
+  "nodeGroups": [],
+  "id": "ukqiifH8NkpmucLe",
+  "tags": []
+}
