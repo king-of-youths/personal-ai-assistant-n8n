@@ -100,50 +100,19 @@ All major Version 1 features were successfully tested.
 
 ### Full Workflow
 
-Add your screenshot:
-
-`01-Personal-AI-Assistant-Full-Workflow.png`
+![Full Workflow](01-Personal-AI-Assistant-Full-Workflow.png)
 
 ### AI Agent
 
-Add your screenshot:
-
-`02-Personal-AI-Assistant-AI-Agent.png`
+![AI Agent](02-Personal-AI-Assistant-AI-Agent.png)
 
 ### Contact Database
 
-Add your screenshot:
+![Contact Database](03-Contact-Database.png)
 
-`03-Contact-Database.png`
+### Calendar + Gmail Execution
 
-### Calendar Execution
-
-Add your screenshot:
-
-`04-Successful-Calendar-Execution.png`
-
+![Calendar + Gmail Execution](04-Calendar-Gmail-Execution.png)
 ### Working Assistant
 
-Add your screenshot:
-
-`05-Working-Personal-AI-Assistant.png`
-
-## Future Improvements
-
-Planned improvements include:
-
-* WhatsApp integration
-* Supabase database
-* Web search
-* Document and PDF knowledge
-* RAG
-* Advanced email automation
-* Better error handling
-* Logging and monitoring
-* Automated notifications
-
-## Project Status
-
-Version 1 — Completed ✅
-
-This project is part of my journey into AI Automation Engineering.
+![Working Assistant](05-Working-Personal-AI-Assistant.png)
