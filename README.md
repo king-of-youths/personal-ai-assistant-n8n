@@ -1,22 +1,21 @@
 # Personal AI Assistant — n8n
 
-An AI-powered personal assistant built with n8n and Google Gemini.
+An AI-powered personal assistant built with n8n, Google Gemini, Google Sheets, Google Calendar, and Gmail.
 
-The assistant can answer questions, remember conversation context, search a contact database, create Google Calendar events, and send Gmail messages automatically.
+The assistant can answer questions, remember conversations, search a contact database, create calendar events, and send emails through automated tool execution.
 
 ## Project Overview
 
-This project demonstrates how AI agents can interact with external services and perform real-world automation tasks.
+This project demonstrates how an AI agent can connect to external services and perform useful real-world tasks through n8n.
 
-The assistant is designed to help users with:
+The assistant is designed to help with AI, automation, APIs, and n8n questions while also performing actions such as:
 
-* AI and technology questions
-* Conversation memory
-* Contact lookup
-* Calendar scheduling
-* Email communication
-* Date and time handling
-* Automated tool execution
+* Maintaining conversation memory
+* Searching a Google Sheets contact database
+* Creating Google Calendar events
+* Sending Gmail messages
+* Handling dates using the Africa/Lagos timezone
+* Executing tools without unnecessary duplicate actions
 
 ## Workflow
 
@@ -32,11 +31,11 @@ Assistant Response
 
 The AI Agent is connected to:
 
-* Google Gemini
+* Google Gemini AI Model
 * Conversation Memory
-* Google Sheets Contact Database
-* Google Calendar
-* Gmail
+* Contact Database
+* Calendar Manager
+* Email Sender
 
 ## Technologies Used
 
@@ -45,56 +44,49 @@ The AI Agent is connected to:
 * Google Sheets
 * Google Calendar
 * Gmail
-* Webhooks / Forms
-* JSON
 * APIs
+* Webhooks
+* JSON
 * AI Agents
-* Automation workflows
+* Workflow Automation
 
 ## Key Features
 
 ### AI Assistant
 
-The assistant uses Google Gemini to understand user requests and provide helpful responses.
+The assistant uses Google Gemini to understand user questions and provide beginner-friendly explanations about AI, automation, APIs, and n8n.
 
 ### Conversation Memory
 
-The assistant can remember information during a conversation using n8n Simple Memory and a session ID.
+The assistant uses a session ID to maintain conversation context between messages.
 
 ### Contact Database
 
-Google Sheets is used as a contact database.
+Before sending an email to a named contact, the assistant searches the Google Sheets contact database for the person's email address.
 
-Before sending an email to a person identified by name, the assistant searches the contact database for the correct email address.
+The assistant does not invent email addresses when a contact cannot be found.
 
 ### Google Calendar
 
-The assistant can create calendar events using the requested date and time.
-
-The workflow uses the Africa/Lagos timezone and converts relative dates such as "tomorrow" into exact calendar dates.
+The assistant can create calendar events using the Africa/Lagos timezone and converts relative dates into absolute ISO 8601 date and time values.
 
 ### Gmail
 
-The assistant can send emails automatically using verified contact information from the contact database.
-
-### Safety Rules
-
-The AI agent is instructed not to invent contact information and not to repeat successful calendar or email actions unnecessarily.
+The assistant can send emails automatically when the required contact information is available.
 
 ## Testing
 
-The workflow was tested with:
+The workflow was tested for:
 
-* Basic AI questions
+* Basic AI responses
 * Conversation memory
-* Contact lookup
-* Calendar event creation
-* Gmail sending
+* Contact database searches
+* Google Calendar event creation
+* Gmail email sending
 * Missing contact handling
-* Relative date handling
 * Autonomous tool execution
-
-All major Version 1 features were successfully tested.
+* Relative date handling
+* Africa/Lagos timezone handling
 
 ## Screenshots
 
@@ -113,6 +105,25 @@ All major Version 1 features were successfully tested.
 ### Calendar + Gmail Execution
 
 ![Calendar + Gmail Execution](04-Calendar-Gmail-Execution.png)
+
 ### Working Assistant
 
 ![Working Assistant](05-Working-Personal-AI-Assistant.png)
+
+## Future Improvements
+
+Planned improvements include:
+
+* WhatsApp integration
+* Supabase database integration
+* Web search
+* Document and knowledge-base integration
+* More automation tools
+* Improved error handling
+* Deployment and monitoring improvements
+
+## Project Status
+
+Version 1 — Completed
+
+This project is part of my journey into AI Automation Engineering, focusing on building practical AI agents and business automation systems with n8n.
